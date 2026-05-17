@@ -25,7 +25,7 @@
         }
         .product-card { background: #2a2e42dd; backdrop-filter: blur(4px); border: 1px solid #4a4f6e; border-radius: 32px; padding: 24px 20px; text-align: center; transition: 0.2s; }
         .product-card:hover { transform: translateY(-6px); background: #353b55; border-color: #6c8cff; }
-        .game-icon { font-size: 3rem; margin-bottom: 10px; }
+        .game-img { width: 100%; max-width: 200px; height: auto; border-radius: 20px; margin-bottom: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
         .price-container { margin: 14px 0; }
         .old-price { font-size: 1.1rem; color: #aaa; text-decoration: line-through; margin-right: 10px; }
         .new-price { font-size: 1.8rem; font-weight: bold; color: #6c8cff; }
@@ -83,7 +83,6 @@
             <button class="cart-icon-btn" id="openCartBtn">🛒 корзина (<span id="cartCount">0</span>)</button>
         </div>
 
-        <!-- Сетка игр со скидкой 30% и картинками-эмодзи -->
         <div class="products-grid" id="gamesGrid"></div>
         <footer>⭐ ключи приходят на email после оплаты ⭐</footer>
     </div>
@@ -142,25 +141,22 @@
     }
     drawStars();
 
-    // список игр с картинками-эмодзи (удалён cs2 prime)
+    // список игр с картинками (только 14, остальные удалены)
     const games = [
-        { name: "Elden Ring", oldPrice: 2999, icon: "🗡️✨" },
-        { name: "Cyberpunk 2077", oldPrice: 2499, icon: "🤖🔫" },
-        { name: "Baldur's Gate 3", oldPrice: 3599, icon: "🐉🎲" },
-        { name: "Hogwarts Legacy", oldPrice: 2799, icon: "⚡🧙" },
-        { name: "Red Dead Redemption 2", oldPrice: 2999, icon: "🤠🐎" },
-        { name: "The Witcher 3", oldPrice: 1299, icon: "🐺⚔️" },
-        { name: "Call of Duty: MW III", oldPrice: 3999, icon: "🎖️🔫" },
-        { name: "Starfield", oldPrice: 3499, icon: "🚀🌌" },
-        { name: "Diablo IV", oldPrice: 3199, icon: "😈🔥" },
-        { name: "FIFA 24", oldPrice: 2499, icon: "⚽🏆" },
-        { name: "Dota 2 (Arcana)", oldPrice: 1999, icon: "🌲🔨" },
-        { name: "Resident Evil 4", oldPrice: 2799, icon: "🧟🔫" },
-        { name: "Atomic Heart", oldPrice: 2299, icon: "⚙️🤖" },
-        { name: "Hollow Knight", oldPrice: 999, icon: "🪲🗡️" },
-        { name: "Stray", oldPrice: 1199, icon: "🐱🤖" },
-        { name: "PUBG (G-Coin)", oldPrice: 899, icon: "🪂🔫" },
-        { name: "Minecraft (Java)", oldPrice: 1699, icon: "⛏️🧱" }
+        { name: "Elden Ring", oldPrice: 2999, img: "https://avatars.mds.yandex.net/get-mpic/11906264/2a0000018cab045be221e803de108b368dca/orig" },
+        { name: "Cyberpunk 2077", oldPrice: 2499, img: "https://gameguru.ru/media/wallpaper/26491/Cyberpunk2077NG_Cover_art_RGB-en.jpg" },
+        { name: "Baldur's Gate 3", oldPrice: 3599, img: "https://avatars.mds.yandex.net/get-mpic/16273139/2a00000198b96f88b578079fd893dd245648/orig" },
+        { name: "Hogwarts Legacy", oldPrice: 2799, img: "https://i.playground.ru/e/8654UqFU1HNVh2myfvv5fw.jpeg" },
+        { name: "Red Dead Redemption 2", oldPrice: 2999, img: "https://i.ytimg.com/vi/1CBUhXhW9no/maxresdefault.jpg" },
+        { name: "The Witcher 3", oldPrice: 1299, img: "https://img.ixbt.site/live/images/original/07/17/73/2021/07/27/f086d04b10.png" },
+        { name: "Call of Duty: MW III", oldPrice: 3999, img: "https://gameluster.com/wp-content/uploads/2023/08/Screenshot-2023-08-07-at-22.28.36.jpg" },
+        { name: "Starfield", oldPrice: 3499, img: "https://i.playground.ru/e/sNic15fifv02jPXKlr8fxQ.jpeg" },
+        { name: "Diablo IV", oldPrice: 3199, img: "https://avatars.mds.yandex.net/get-mpic/11047949/2a0000018ef6d92bac2fe6a0b6db1f982e26/9hq" },
+        { name: "FIFA 24", oldPrice: 2499, img: "https://www.notebookcheck.net/fileadmin/Notebooks/Sonstiges/Games/FC24/4zu3_fc24.jpg" },
+        { name: "Resident Evil 4", oldPrice: 2799, img: "https://vkplay.ru/hotbox/content_files/news/2023/01/23/d9bdb9491aa449e18ecb0771154646fc.jpg" },
+        { name: "Atomic Heart", oldPrice: 2299, img: "https://trashbox.ru/ifiles2/1748048_37a37c_logo4.jpg/2023-01-03-novye-lokacii-vragi-i-istorii-no-nikakogo-multipleera-1.webp" },
+        { name: "Hollow Knight", oldPrice: 999, img: "https://ixbt.online/live/images/original/16/66/51/2020/07/25/df1e56952d.jpg" },
+        { name: "Stray", oldPrice: 1199, img: "https://avatars.mds.yandex.net/get-mpic/4948493/2a0000019327cadf8f3ba5038f8599d8df6a/orig" }
     ];
     
     function getDiscountedPrice(oldPrice) {
@@ -175,7 +171,7 @@
             const card = document.createElement('div');
             card.className = 'product-card';
             card.innerHTML = `
-                <div class="game-icon">${game.icon}</div>
+                <img src="${game.img}" class="game-img" alt="${game.name}" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=No+Image'">
                 <h3>${game.name}</h3>
                 <div class="price-container">
                     <span class="old-price">${game.oldPrice} ₽</span>
