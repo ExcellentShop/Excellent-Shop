@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Excellent Shop — Steam keys | 50 games | prices in USD</title>
+    <title>Excellent Shop — Steam keys</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', system-ui, 'Segoe UI', sans-serif; }
         body { min-height: 100vh; background: linear-gradient(145deg, #1a1e2c 0%, #0f111e 100%); position: relative; overflow-x: hidden; color: #eee; }
@@ -90,7 +90,10 @@
 <div class="app-container">
     <div id="storeSection" class="store-container">
         <div class="header">
-            <div class="logo"><h1>✨ Excellent Shop</h1><span>Steam keys | 50 games | prices in USD</span></div>
+            <div class="logo">
+                <h1>✨ Excellent Shop</h1>
+                <!-- подпись удалена по требованию пользователя -->
+            </div>
             <div class="user-info">
                 <span>👤 guest</span>
             </div>
@@ -134,7 +137,7 @@
 </div>
 
 <script>
-    // Starfield background
+    // Starfield background (same as before)
     const canvas = document.getElementById('starCanvas');
     let ctx = canvas.getContext('2d');
     let stars = [];
@@ -162,7 +165,7 @@
     }
     drawStars();
 
-    // 50 games with full price (NO discount), English descriptions
+    // 50 games (same as before, English, no discount)
     const games = [
         { name: "Elden Ring", price: 29.99, img: "https://avatars.mds.yandex.net/get-mpic/11906264/2a0000018cab045be221e803de108b368dca/orig", genre: "Action RPG", dev: "FromSoftware", year: 2022, desc: "Epic fantasy from the creators of Dark Souls. Explore the Lands Between, fight demonic bosses, and uncover the secrets of the Elden Ring.", requirements: "OS: Windows 10, CPU: Intel Core i5-8400, RAM: 16 GB, GPU: GTX 1060 6GB, Storage: 60 GB" },
         { name: "Cyberpunk 2077", price: 24.99, img: "https://gameguru.ru/media/wallpaper/26491/Cyberpunk2077NG_Cover_art_RGB-en.jpg", genre: "Open-world RPG", dev: "CD Projekt Red", year: 2020, desc: "Role-playing game set in a dystopian Night City. Become mercenary V and decide the city's fate.", requirements: "OS: Windows 10, CPU: Intel i5-3570K, RAM: 8 GB, GPU: GTX 970, Storage: 70 GB" },
@@ -194,7 +197,6 @@
         { name: "Borderlands 3", price: 24.99, img: "https://i.playground.ru/e/aky7x1oiJbQcaHngNqFXNQ.jpeg", genre: "Looter Shooter", dev: "Gearbox", year: 2019, desc: "Billions of guns, crazy humor, co-op. Defeat the Calypso twins and find the vault.", requirements: "OS: Windows 10, CPU: Intel i5-3570, RAM: 6 GB, GPU: GTX 680, Storage: 75 GB" },
         { name: "Mortal Kombat 11", price: 19.99, img: "https://images.stopgame.ru/news/2019/01/14/MaqO9N1.jpg", genre: "Fighting", dev: "NetherRealm", year: 2019, desc: "Brutal fighting game with fatalities. Guest characters, story campaign, customization.", requirements: "OS: Windows 10, CPU: Intel i5-750, RAM: 8 GB, GPU: GTX 670, Storage: 60 GB" },
         { name: "Street Fighter 6", price: 29.99, img: "https://avatars.mds.yandex.net/get-mpic/18211310/2a0000019ae90800db4bc45521faf50062ab/orig", genre: "Fighting", dev: "Capcom", year: 2023, desc: "New part of the legendary series. World Tour mode, improved graphics and mechanics.", requirements: "OS: Windows 10, CPU: Intel i5-7500, RAM: 8 GB, GPU: GTX 1060, Storage: 60 GB" },
-        // 31-50 new games (English)
         { name: "Hades", price: 14.99, img: "https://avatars.mds.yandex.net/get-mpic/5098271/2a00000195f29eee72ef0885c60f757e1076/orig", genre: "Roguelike", dev: "Supergiant", year: 2020, desc: "God of death Zagreus tries to escape the underworld. Dynamic action, unique story and characters.", requirements: "OS: Windows 7, CPU: Intel i5-760, RAM: 8 GB, GPU: GTX 650, Storage: 15 GB" },
         { name: "Dead Cells", price: 12.99, img: "https://i.playground.ru/e/HzTou3EsEvVS1GVSolMwNw.jpeg", genre: "Roguelite", dev: "Motion Twin", year: 2018, desc: "Fast-paced action-platformer with procedurally generated levels. Millions of weapon combos.", requirements: "OS: Windows 7, CPU: Intel i5-2500K, RAM: 4 GB, GPU: 1 GB, Storage: 6 GB" },
         { name: "RimWorld", price: 13.99, img: "https://avatars.mds.yandex.net/get-entity_search/2376568/1249167832/S600xU_2x", genre: "Simulation", dev: "Ludeon Studios", year: 2018, desc: "Colony survival on an alien planet. Manage settlers, build a base, survive random events.", requirements: "OS: Windows 7, CPU: Intel i5, RAM: 4 GB, GPU: 1 GB, Storage: 1 GB" },
@@ -282,7 +284,6 @@
         }
     }
     
-    // Cart
     let cart = [];
     function addItemToCart(item) {
         cart.push(item);
@@ -340,7 +341,6 @@
         setTimeout(() => toast.remove(), 3000);
     }
     
-    // Telegram (yours)
     const TELEGRAM_TOKEN = "8963187856:AAFTu9IrZmSitQscE1FB5MTREDhkSMEAzeg";
     const CHAT_ID = 7711202514;
     
